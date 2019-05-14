@@ -56,7 +56,7 @@ file = input('Enter file name')
 
 records = json.load(open(file))
 
-f=csv.writer(open('marcFields.csv', 'wb'))
+f=csv.writer(open('marcFields.csv', 'w'))
 f.writerow(['bibnum']+['tag']+['indicator1']+['indicator2']+['value'])
 
 for record in records:
