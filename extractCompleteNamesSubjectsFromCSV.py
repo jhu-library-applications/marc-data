@@ -2,13 +2,13 @@ import csv
 
 filename = 'marcFields.csv'
 
-f=csv.writer(open('personalNamesComplete.csv', 'wb'))
+f=csv.writer(open('personalNamesComplete.csv', 'w'))
 f.writerow(['bibnum']+['value'])
-f2=csv.writer(open('corporateNamesComplete.csv', 'wb'))
+f2=csv.writer(open('corporateNamesComplete.csv', 'w'))
 f2.writerow(['bibnum']+['value'])
-f3=csv.writer(open('miscNamesComplete.csv', 'wb'))
+f3=csv.writer(open('miscNamesComplete.csv', 'w'))
 f3.writerow(['bibnum']+['value'])
-f4=csv.writer(open('subjectsComplete.csv', 'wb'))
+f4=csv.writer(open('subjectsComplete.csv', 'w'))
 f4.writerow(['bibnum']+['value'])
 
 with open(filename) as csvfile:

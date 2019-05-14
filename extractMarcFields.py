@@ -23,7 +23,7 @@ def extractMarcField (tag):
                 for subfield in value:
                     tagData = tagData + subfield + ' '
             if bibnum in missedBibs:
-                f.writerow([bibnum]+[tag]+[indicator1]+[indicator2]+[tagData.encode('utf-8')])
+                f.writerow([bibnum]+[tag]+[indicator1]+[indicator2]+[tagData])
 
 def extractMarcFieldStartsWith (digit):
     dataFields = record['record']['datafield']
@@ -49,10 +49,10 @@ def extractMarcFieldStartsWith (digit):
                     if isinstance(subfield, basestring):
                         tagData = tagData + subfield + '--'
             if bibnum in missedBibs:
-                f.writerow([bibnum]+[tagNumber]+[indicator1]+[indicator2]+[tagData.encode('utf-8')])
+                f.writerow([bibnum]+[tagNumber]+[indicator1]+[indicator2]+[tagData])
 
 startTime = time.time()
-file = raw_input('Enter file name')
+file = input('Enter file name')
 
 records = json.load(open(file))
 
@@ -73,4 +73,4 @@ for record in records:
 elapsedTime = time.time() - startTime
 m, s = divmod(elapsedTime, 60)
 h, m = divmod(m, 60)
-print 'Total script run time: ', '%d:%02d:%02d' % (h, m, s)
+print('Total script run time: ', '%d:%02d:%02d' % (h, m, s))
