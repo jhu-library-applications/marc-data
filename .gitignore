@@ -21,3 +21,53 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+secrets.py
+*.pyc
+data/*
+!data/.keep
+.profile
+*.csv
+*.json
+*.mrc
+*.txt
+local/*
+*.xml
+*.xlsx
+
+
+!geoblacklight-schema.json
+!gacs_code.csv
+!marc_006types.csv
+!marc_datetypes.csv
+!marc_lang.csv
+!iso_lang.csv
+!iso_19115topics.csv
+!lcgft_cartographic.csv
+!marc_levelAuthorities.csv
+!marc_typeAuthorities.csv
+!marc_catsourceAuthorities.csv
+!marc_007categoryMaterial.csv
