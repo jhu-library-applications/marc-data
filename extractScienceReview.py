@@ -17,7 +17,6 @@ else:
 fileDir = os.path.dirname(__file__)
 
 gacs_dict = {}
-types_dict = {}
 datetypes_dict = {}
 lang_dict = {}
 cat_dict = {}
@@ -34,8 +33,6 @@ def createDict(csvname, column1, column2, dictname):
 
 #  Import gacs codes used in 043 fields.
 createDict(os.path.join(fileDir, 'dictionaries/gacs_code.csv'), 'code', 'location', gacs_dict)
-#  Import type codes used in 006.
-createDict(os.path.join(fileDir, 'dictionaries/marc_006types.csv'), 'Type', 'Name', types_dict)
 #  Import date type codes used in 008.
 createDict(os.path.join(fileDir, 'dictionaries/marc_datetypes.csv'), 'Type', 'Name', datetypes_dict)
 # Import language codes used in Lang.
@@ -103,6 +100,7 @@ with open(filename, 'rb') as fh:
         subfield_finder(record, 'bib', subfields=['a'], tags=['910'])
         field_finder(record, 'barcode', tags=['991'])
         subfield_finder(record, 'oclc', subfields=['a'], tags=['035'])
+        subfield_finder(record, 'title2', subfields=['a', 'b', 'n', 'p'], tags=['245'])
         # field_finder(record, 'people',  tags=['700'])
         # field_finder(record, 'corporate',  tags=['710'])
         # field_finder(record, 'program', tags=['730'])
@@ -229,20 +227,19 @@ with open(filename, 'rb') as fh:
                         tiny_dict['presenter'] = new_list
 
 
-
-        del mrc_fields['008']
-        del mrc_fields['length']
-        mrc_fields['duration'] = duration
-        mrc_fields['creation_date'] = creation_date
-        mrc_fields['datetype'] = datetype
-        convert_to_name('datetype', datetypes_dict)
-        mrc_fields['date1'] = date1
-        mrc_fields['date2'] = date2
-        mrc_fields['lang'] = lang
-        convert_to_name('lang', lang_dict)
-        for k, v in tiny_dict.items():
-            v = '|'.join(str(e) for e in v)
-            mrc_fields[k] = v
+        # # del mrc_fields['008']
+        # # del mrc_fields['length']
+        # mrc_fields['duration'] = duration
+        # mrc_fields['creation_date'] = creation_date
+        # mrc_fields['datetype'] = datetype
+        # convert_to_name('datetype', datetypes_dict)
+        # mrc_fields['date1'] = date1
+        # mrc_fields['date2'] = date2
+        # mrc_fields['lang'] = lang
+        # convert_to_name('lang', lang_dict)
+        # for k, v in tiny_dict.items():
+        #     v = '|'.join(str(e) for e in v)
+        #     mrc_fields[k] = v
 
         # Adds dict created by this MARC record to all_fields list.
         all_fields.append(mrc_fields)
