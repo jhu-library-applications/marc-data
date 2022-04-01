@@ -53,6 +53,8 @@ data/*
 *.csv
 *.json
 *.mrc
+*.dat
+*.mrk
 *.txt
 local/*
 *.xml
