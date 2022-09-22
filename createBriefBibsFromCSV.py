@@ -136,13 +136,14 @@ for index, row in df.iterrows():
     # Add extent information.
     a_300 = row['300_a']
     b_300 = row['300_b']
-    fields_300 = ['a', a_300 + ' :', 'b', b_300]
+    c_300 = '16 mm'
+    fields_300 = ['a', a_300 + ' :', 'b', b_300+' ;', 'c', c_300]
     addfieldfromsheet('300', ind_blanks, fields_300)
 
     # Add content and media type.
     addfieldfromsheet('336', ind_blanks, ['a', 'two-dimensional moving image', 'b', 'tdi', '2', 'rdacontent'])
     addfieldfromsheet('337', ind_blanks, ['a', 'video', 'b', 'v', '2', 'rdamedia'])
-
+    addfieldfromsheet('338', ind_blanks, ['a', 'film reel', 'b', 'mr', 'c', 'rdacarrier'])
     # Add 500 note.
     a_500 = row.get('500_a')
     if pd.notna(a_500):
@@ -168,7 +169,7 @@ for index, row in df.iterrows():
         pass
 
     # Add collection note.
-    addfieldfromsheet('710', ['2', ' '], ['a', 'TEST Academic Film Archive of North America Collection.', '5', 'JHE'])
+    addfieldfromsheet('710', ['2', ' '], ['a', 'Academic Film Archive of North America Collection.', '5', 'JHE'])
     # Add corporate bodies.
     corporate_bodies = row.get('corporate_bodies')
     if pd.notna(corporate_bodies):
