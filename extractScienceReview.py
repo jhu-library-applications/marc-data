@@ -117,7 +117,6 @@ with open(filename, 'rb') as fh:
         # subfield_finder(record, 'alt_title', subfields=['a', 'b'], tags=['246'])
         # subfield_finder(record, 'cdates', subfields=['x', 'y'], tags=['034'])
 
-
         tiny_dict = {}
         # Edit & convert values in dictionary.
         for k, v in mrc_fields.items():
@@ -139,7 +138,7 @@ with open(filename, 'rb') as fh:
                 v = v.split('|')
                 for item in v:
                     item = str(item)
-                    oclc_num = re.search(r'([0-9]+)', item)
+                    oclc_num = re.search(r'(\d+)', item)
                     if oclc_num:
                         oclc_num = oclc_num.group(1)
                         if oclc_num not in oclc_list:
@@ -225,7 +224,6 @@ with open(filename, 'rb') as fh:
                             item = item.strip()
                             new_list.append(item)
                         tiny_dict['presenter'] = new_list
-
 
         # # del mrc_fields['008']
         # # del mrc_fields['length']

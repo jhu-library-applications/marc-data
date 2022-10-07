@@ -57,7 +57,7 @@ for count, row in df.iterrows():
     oclcList = row['oclc'].split('|')
     updatedOCLC = []
     for oclc in oclcList:
-        oclc_num = re.search(r'([0-9]+)', oclc)
+        oclc_num = re.search(r'(\d+)', oclc)
         oclc_pre = re.search(r'([a-zA-Z]+)', oclc)
         print(oclc)
         print(oclc_pre)

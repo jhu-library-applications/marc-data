@@ -17,7 +17,7 @@ with open(filename) as csvfile:
                 personalNames.append(row['value'])
         personalNames.sort()
 
-f=csv.writer(open('personalNamesUnique.csv', 'w'))
+f = csv.writer(open('personalNamesUnique.csv', 'w'))
 f.writerow(['value'])
 for name in personalNames:
     f.writerow([name])
@@ -37,7 +37,7 @@ with open(filename) as csvfile:
                 corporateNames.append(row['value'])
         corporateNames.sort()
 
-f=csv.writer(open('corporateNamesUnique.csv', 'w'))
+f = csv.writer(open('corporateNamesUnique.csv', 'w'))
 f.writerow(['value'])
 for name in corporateNames:
     f.writerow([name])
@@ -54,7 +54,7 @@ with open(filename) as csvfile:
                 miscNames.append(row['value'])
         miscNames.sort()
 
-f=csv.writer(open('miscNamesUnique.csv', 'w'))
+f = csv.writer(open('miscNamesUnique.csv', 'w'))
 f.writerow(['value'])
 for name in miscNames:
     f.writerow([name])
@@ -68,7 +68,7 @@ with open(filename) as csvfile:
                 subjects.append(row['value'])
         subjects.sort()
 
-f=csv.writer(open('subjectsUnique.csv', 'w'))
+f = csv.writer(open('subjectsUnique.csv', 'w'))
 f.writerow(['value'])
 for name in subjects:
     f.writerow([name])

@@ -2,73 +2,75 @@ import json
 import csv
 import time
 
-def extractMarcField (tag):
-    dataFields = record['record']['datafield']
-    tagData = ''
-    for dataField in dataFields:
+
+def extract_marc_field(tag):
+    data_fields = record['record']['datafield']
+    tag_data = ''
+    for dataField in data_fields:
         if dataField['tag'] == '910':
-            bibnum = dataField['subfield']
-            if isinstance(bibnum, basestring):
-                bibnum = bibnum
+            bib_number = dataField['subfield']
+            if isinstance(bib_number, basestring):
+                bib_number = bib_number
             else:
-                bibnum = bibnum[0]
-    for dataField in dataFields:
+                bib_number = bib_number[0]
+    for dataField in data_fields:
         if dataField['tag'] == tag:
             value = dataField['subfield']
             indicator1 = dataField['ind1']
             indicator2 = dataField['ind2']
             if isinstance(value, basestring):
-                tagData = value
+                tag_data = value
             else:
                 for subfield in value:
-                    tagData = tagData + subfield + ' '
-            if bibnum in missedBibs:
-                f.writerow([bibnum]+[tag]+[indicator1]+[indicator2]+[tagData])
+                    tag_data = tag_data + subfield + ' '
+            if bib_number in missed_bibs:
+                f.writerow([bib_number] + [tag] + [indicator1] + [indicator2] + [tag_data])
 
-def extractMarcFieldStartsWith (digit):
-    dataFields = record['record']['datafield']
-    for dataField in dataFields:
+
+def extract_marc_field_starts_with(digit):
+    data_fields = record['record']['datafield']
+    for dataField in data_fields:
         if dataField['tag'] == '910':
-            bibnum = dataField['subfield']
-            if isinstance(bibnum, basestring):
-                bibnum = bibnum
+            bib_number = dataField['subfield']
+            if isinstance(bib_number, basestring):
+                bib_number = bib_number
             else:
-                bibnum = bibnum[0]
-
-    for dataField in dataFields:
-        tagData = ''
+                bib_number = bib_number[0]
+    for dataField in data_fields:
+        tag_data = ''
         if dataField['tag'].startswith(digit):
-            tagNumber = dataField['tag']
+            tag_number = dataField['tag']
             value = dataField['subfield']
             indicator1 = dataField['ind1']
             indicator2 = dataField['ind2']
             if isinstance(value, basestring):
-                tagData = value
+                tag_data = value
             else:
                 for subfield in value:
                     if isinstance(subfield, basestring):
-                        tagData = tagData + subfield + '--'
-            if bibnum in missedBibs:
-                f.writerow([bibnum]+[tagNumber]+[indicator1]+[indicator2]+[tagData])
+                        tag_data = tag_data + subfield + '--'
+            if bib_number in missed_bibs:
+                f.writerow([bib_number]+[tag_number]+[indicator1]+[indicator2]+[tag_data])
+
 
 startTime = time.time()
 file = input('Enter file name')
 
 records = json.load(open(file))
 
-f=csv.writer(open('marcFields.csv', 'w'))
+f = csv.writer(open('marcFields.csv', 'w'))
 f.writerow(['bibnum']+['tag']+['indicator1']+['indicator2']+['value'])
 
 for record in records:
-    extractMarcFieldStartsWith('1')
-    extractMarcField('245')
-    extractMarcField('520')
-    extractMarcField('540')
-    extractMarcField('544')
-    extractMarcField('545')
-    extractMarcField('561')
-    extractMarcFieldStartsWith('6')
-    extractMarcFieldStartsWith('7')
+    extract_marc_field_starts_with('1')
+    extract_marc_field('245')
+    extract_marc_field('520')
+    extract_marc_field('540')
+    extract_marc_field('544')
+    extract_marc_field('545')
+    extract_marc_field('561')
+    extract_marc_field_starts_with('6')
+    extract_marc_field_starts_with('7')
 
 elapsedTime = time.time() - startTime
 m, s = divmod(elapsedTime, 60)

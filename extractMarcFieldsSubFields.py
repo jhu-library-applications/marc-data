@@ -22,7 +22,7 @@ marc_lang = {}
 cat_dict = {}
 
 
-def createDict(csvname, column1, column2, dictname):
+def create_dict(csvname, column1, column2, dictname):
     with open(csvname) as codes:
         codes = csv.DictReader(codes)
         for row in codes:
@@ -32,14 +32,14 @@ def createDict(csvname, column1, column2, dictname):
 
 
 #  Import type codes used in 006.
-createDict(os.path.join(fileDir, 'dictionaries/marc_datetypes.csv'), 'Type',
-           'Name', datetypes_dict)
+create_dict(os.path.join(fileDir, 'dictionaries/marc_datetypes.csv'), 'Type',
+            'Name', datetypes_dict)
 # Import language codes used in language.
-createDict(os.path.join(fileDir, 'dictionaries/marc_lang.csv'), 'Code', 'Name',
-           marc_lang)
+create_dict(os.path.join(fileDir, 'dictionaries/marc_lang.csv'), 'Code', 'Name',
+            marc_lang)
 # Import category codes used in 007.
-createDict(os.path.join(fileDir, 'dictionaries/marc_007categoryMaterial.csv'),
-           'Code', 'Name', cat_dict)
+create_dict(os.path.join(fileDir, 'dictionaries/marc_007categoryMaterial.csv'),
+            'Code', 'Name', cat_dict)
 
 
 #  Creates k,v pair in dict where key = field_name,
@@ -106,12 +106,16 @@ with open(filename, 'rb') as fh:
         mrc_fields['title'] = record.title()
         subfield_finder('alt_title', subfields=['a', 'b'], tags=['246'])
         subfield_finder('statresp', subfields=['c'], tags=['245'])
-        field_finder('desc508', tags=['508'])
-        field_finder('desc511', tags=['511'])
-        field_finder('desc518', tags=['518'])
+        field_finder('desc500', tags=['500'])
         subfield_finder('language', subfields=['a', 'b', 'c', 'd', 'f'], tags=['041'])
         subfield_finder('temporal', subfields=['x', 'y'], tags=['034'])
         subfield_finder('barcode', subfields=['a', 'i'], tags=['991'])
+        subfield_finder('iso_subject', subfields=['a'], tags=['690'])
+        subfield_finder('geonames', subfields=['a'], tags=['691'])
+        subfield_finder('genre', subfields=['a'], tags=['655'])
+        field_finder('people', tags=['700', '100'])
+        field_finder('corporate', tags=['110', '710'])
+        subfield_finder('link', subfields=['u'], tags=['856'])
         catValue = mrc_fields.get('category')
         if catValue:
             mrc_fields['category'] = catValue[0]
@@ -138,7 +142,7 @@ with open(filename, 'rb') as fh:
                 v = v.split('|')
                 for item in v:
                     item = str(item)
-                    oclc_num = re.search(r'([0-9]+)', item)
+                    oclc_num = re.search(r'(\d+)', item)
                     if oclc_num:
                         oclc_num = oclc_num.group(1)
                         if oclc_num not in oclc_list:

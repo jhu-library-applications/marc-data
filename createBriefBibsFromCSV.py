@@ -68,8 +68,8 @@ for index, row in df.iterrows():
     # Add local identifiers.
     film_id = row['film_id']
     film_id = str(film_id).zfill(4)
-    film_id = 'AFADatabaseID_' + film_id
-    fields_099 = ['a', film_id]
+    with_prefix_film_id = 'AFADatabaseID_' + film_id
+    fields_099 = ['a', with_prefix_film_id]
     addfieldfromsheet('099', ind_blanks, fields_099)
 
     # Add 041 field
@@ -87,7 +87,7 @@ for index, row in df.iterrows():
     ii_242 = str(ii_242)
     ind_242 = ['1', ii_242]
     if pd.notna(b_242):
-        fields_242 = ['a', a_242 + ': ', 'b', b_242 + '/']
+        fields_242 = ['a', a_242 + ': ', 'b', b_242 + ' /']
         addfieldfromsheet('242', ind_242, fields_242)
     elif pd.notna(a_242):
         fields_242 = ['a', a_242 + '/']
@@ -143,7 +143,7 @@ for index, row in df.iterrows():
     # Add content and media type.
     addfieldfromsheet('336', ind_blanks, ['a', 'two-dimensional moving image', 'b', 'tdi', '2', 'rdacontent'])
     addfieldfromsheet('337', ind_blanks, ['a', 'video', 'b', 'v', '2', 'rdamedia'])
-    addfieldfromsheet('338', ind_blanks, ['a', 'film reel', 'b', 'mr', 'c', 'rdacarrier'])
+    addfieldfromsheet('338', ind_blanks, ['a', 'film reel', 'b', 'mr', '2', 'rdacarrier'])
     # Add 500 note.
     a_500 = row.get('500_a')
     if pd.notna(a_500):
@@ -201,14 +201,26 @@ for index, row in df.iterrows():
                 addfieldfromsheet('856', ['4', '1'], ['3', iii_856, 'u', link])
     else:
         pass
+
+    # Add item information
+    total_reels = row['reels']
+    for reel_no in range(total_reels):
+        reel_no = reel_no+1
+        item_type = 'enonav'  # subfield h
+        location = 'elsc'  # subfield c
+        collection = 'eofav'  # subfield d
+        call_type = 'eformat'  # subfield b
+        call_no = 'Video '+film_id  # subfield a
+        copy_statement = 'reel '+str(reel_no)  # subfield g
+        item_status = 't'  # subfield z
+        addfieldfromsheet('970', ['1', ' '], ['h', item_type, 'c', location, 'd', collection, 'b', call_type, 'a',
+                                              call_no, 'g', copy_statement, 'z', item_status])
+
     print(record)
     my_marc_records.append(record)
 
-
-#
-
-
 # Divide list of records into n-sized batches
+
 
 def divide_chunks(list_to_divide, n):
     # looping till length l
@@ -221,7 +233,7 @@ for index, batch in enumerate(batches_marc_records):
     index = index + 1
     index = str(index).zfill(2)
     # Create a new dat file.
-    my_new_marc_filename = 'AFABriefBibs_' + index + '.dat'
+    my_new_marc_filename = 'TESTAFABriefBibs_' + index + '.dat'
     with open(my_new_marc_filename, 'wb') as data:
         for my_record in batch:
             data.write(my_record.as_marc())
