@@ -3,7 +3,7 @@ import pandas as pd
 import ast
 import numpy as np
 
-df = pd.read_csv('AFA_test.csv', encoding='utf8')
+df = pd.read_csv('AFABriefBibs_2022-10-28.csv', encoding='utf8')
 df = df.fillna(value=np.nan)
 
 
@@ -59,8 +59,8 @@ for index, row in df.iterrows():
     byte35_37 = row['language']
     byte38 = ' '
     byte39 = 'c'
-    field_008 = byte00_05 + byte06 + byte07_10 + byte11_14 + byte15_17 + byte18_20 + byte21_27 + byte28 + byte29_32 + byte33 + \
-                byte34 + byte35_37 + byte38 + byte39
+    field_008 = byte00_05 + byte06 + byte07_10 + byte11_14 + byte15_17 + byte18_20 + byte21_27 + byte28 + byte29_32 + \
+                byte33 + byte34 + byte35_37 + byte38 + byte39
     print(len(field_008))
     field = Field(tag='008', data=field_008)
     record.add_field(field)
@@ -137,7 +137,7 @@ for index, row in df.iterrows():
     a_300 = row['300_a']
     b_300 = row['300_b']
     c_300 = '16 mm'
-    fields_300 = ['a', a_300 + ' :', 'b', b_300+' ;', 'c', c_300]
+    fields_300 = ['a', a_300 + ' :', 'b', b_300 + ' ;', 'c', c_300]
     addfieldfromsheet('300', ind_blanks, fields_300)
 
     # Add content and media type.
@@ -203,21 +203,24 @@ for index, row in df.iterrows():
         pass
 
     # Add item information
-    total_reels = row['reels']
-    for reel_no in range(total_reels):
-        reel_no = reel_no+1
-        item_type = 'enonav'  # subfield h
-        location = 'elsc'  # subfield c
-        collection = 'eofav'  # subfield d
-        call_type = 'eformat'  # subfield b
-        call_no = 'Video '+film_id  # subfield a
-        copy_statement = 'reel '+str(reel_no)  # subfield g
-        item_status = 't'  # subfield z
-        addfieldfromsheet('970', ['1', ' '], ['h', item_type, 'c', location, 'd', collection, 'b', call_type, 'a',
-                                              call_no, 'g', copy_statement, 'z', item_status])
+    total_reels = row['reels'].strip()
+    if total_reels != "unknown":
+        total_reels = int(total_reels)
+        for reel_no in range(total_reels):
+            reel_no = reel_no + 1
+            item_type = 'enonav'  # subfield h
+            location = 'elsc'  # subfield c
+            collection = 'eofav'  # subfield d
+            call_type = 'eformat'  # subfield b
+            call_no = 'Video ' + film_id  # subfield a
+            copy_statement = 'reel ' + str(reel_no)  # subfield g
+            item_status = 't'  # subfield z
+            addfieldfromsheet('970', ['1', ' '], ['h', item_type, 'c', location, 'd', collection, 'b', call_type, 'a',
+                                                  call_no, 'g', copy_statement, 'z', item_status])
 
     print(record)
     my_marc_records.append(record)
+
 
 # Divide list of records into n-sized batches
 
@@ -233,7 +236,7 @@ for index, batch in enumerate(batches_marc_records):
     index = index + 1
     index = str(index).zfill(2)
     # Create a new dat file.
-    my_new_marc_filename = 'TESTAFABriefBibs_' + index + '.dat'
+    my_new_marc_filename = 'AFABriefBibs_' + index + '.dat'
     with open(my_new_marc_filename, 'wb') as data:
         for my_record in batch:
             data.write(my_record.as_marc())
